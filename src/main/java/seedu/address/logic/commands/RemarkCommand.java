@@ -28,7 +28,6 @@ public class RemarkCommand extends Command {
      */
     public RemarkCommand(Index index, Remark remark) {
         requireAllNonNull(index, remark);
-
         this.index = index;
         this.remark = remark;
     }

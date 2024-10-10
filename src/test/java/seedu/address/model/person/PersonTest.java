@@ -14,6 +14,8 @@ import static seedu.address.testutil.TypicalPersons.BOB;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.role.RoleHandler;
+import seedu.address.model.role.exceptions.InvalidRoleException;
 import seedu.address.testutil.PersonBuilder;
 
 public class PersonTest {
@@ -93,7 +95,8 @@ public class PersonTest {
     @Test
     public void toStringMethod() {
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags() + "}";
+                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
+                + ", roles=" + ALICE.getRoles() + "}";
         assertEquals(expected, ALICE.toString());
     }
 
@@ -109,5 +112,39 @@ public class PersonTest {
         Person aliceCopy = new PersonBuilder(ALICE).build();
         Person bobCopy = new PersonBuilder(BOB).build();
         assertTrue(BOB.compareTo(ALICE) > 0);
+    }
+
+    @Test
+    public void getRoles_oneRole() {
+        Person person = new PersonBuilder().withRoles("attendee").build();
+        try {
+            assertTrue(person.getRoles().contains(new RoleHandler().getRole("attendee")));
+
+        } catch (InvalidRoleException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void hasRole_oneRole() {
+        Person person = new PersonBuilder().withRoles("attendee").build();
+        try {
+            assertTrue(person.hasRole(new RoleHandler().getRole("attendee")));
+
+        } catch (InvalidRoleException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void hasRole_twoRole() {
+        Person person = new PersonBuilder().withRoles("attendee", "speaker").build();
+        try {
+            assertTrue(person.hasRole(new RoleHandler().getRole("attendee")));
+            assertTrue(person.hasRole(new RoleHandler().getRole("speaker")));
+
+        } catch (InvalidRoleException e) {
+            e.printStackTrace();
+        }
     }
 }

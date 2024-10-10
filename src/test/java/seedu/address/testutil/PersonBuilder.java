@@ -9,6 +9,9 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.TelegramUsername;
+import seedu.address.model.role.Role;
+import seedu.address.model.role.RoleHandler;
+import seedu.address.model.role.exceptions.InvalidRoleException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -29,6 +32,7 @@ public class PersonBuilder {
     private Address address;
     private TelegramUsername telegramUsername;
     private Set<Tag> tags;
+    private Set<Role> roles;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -40,6 +44,7 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         telegramUsername = new TelegramUsername(DEFAULT_TELEGRAM_USERNAME);
         tags = new HashSet<>();
+        roles = new HashSet<>();
     }
 
     /**
@@ -52,6 +57,7 @@ public class PersonBuilder {
         address = personToCopy.getAddress();
         telegramUsername = personToCopy.getTelegramUsername();
         tags = new HashSet<>(personToCopy.getTags());
+        roles = new HashSet<>(personToCopy.getRoles());
     }
 
     /**
@@ -94,6 +100,27 @@ public class PersonBuilder {
         return this;
     }
 
+    //TODO: Add withRoles method ?
+    /**
+     * Adds roles based on a String array of role name Strings
+     */
+    public PersonBuilder withRoles(String ... roles) {
+        Set<Role> newRoles = new HashSet<>();
+        for (String role : roles) {
+            try {
+                Role nextRole = new RoleHandler().getRole(role);
+                newRoles.add(nextRole);
+                this.roles = newRoles;
+            } catch (InvalidRoleException e) {
+                //TODO: Handle this exception
+                continue;
+            }
+        }
+
+        return this;
+    }
+
+
     /**
      * Sets the {@code TelegramUsername} of the {@code Person} being built.
      *
@@ -105,8 +132,14 @@ public class PersonBuilder {
         return this;
     }
 
+
+    /**
+     * Builds a Person object with the given fields.
+     */
     public Person build() {
-        return new Person(name, phone, email, address, tags, telegramUsername);
+        Role[] roleArray = roles.toArray(new Role[0]);
+
+        return new Person(name, phone, email, address, tags, telegramUsername, roleArray);
     }
 
 }

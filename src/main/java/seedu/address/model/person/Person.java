@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.role.Role;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -25,13 +26,15 @@ public class Person implements Comparable<Person> {
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
 
+    private final Set<Role> roles = new HashSet<>();
     private final TelegramUsername telegramUsername;
 
     /**
      * Every field must be present and not null
      */
+
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
-                  TelegramUsername telegramUsername) {
+                  TelegramUsername telegramUsername, Role... roles) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
@@ -39,6 +42,10 @@ public class Person implements Comparable<Person> {
         this.address = address;
         this.tags.addAll(tags);
         this.telegramUsername = telegramUsername;
+        for (Role role : roles) {
+            this.roles.add(role);
+        }
+
     }
 
     public Name getName() {
@@ -59,6 +66,8 @@ public class Person implements Comparable<Person> {
     public TelegramUsername getTelegramUsername() {
         return telegramUsername;
     }
+
+
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
@@ -83,6 +92,15 @@ public class Person implements Comparable<Person> {
     }
 
     /**
+     * Returns an immutable role set.
+     */
+    public Set<Role> getRoles() {
+        return Collections.unmodifiableSet(roles);
+    }
+
+
+
+    /**
      * Returns true if both persons have the same identity and data fields.
      * This defines a stronger notion of equality between two persons.
      */
@@ -103,14 +121,23 @@ public class Person implements Comparable<Person> {
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags)
+                && roles.equals(otherPerson.roles)
                 && telegramUsername.equals(otherPerson.telegramUsername);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, tags, roles);
     }
+
+    /**
+     * Returns true if the person has the specified role.
+     */
+    public boolean hasRole(Role role) {
+        return roles.contains(role);
+    }
+
 
     @Override
     public String toString() {
@@ -120,6 +147,7 @@ public class Person implements Comparable<Person> {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("roles", roles)
                 .toString();
     }
 

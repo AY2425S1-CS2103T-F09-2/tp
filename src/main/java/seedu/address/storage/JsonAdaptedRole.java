@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.role.Role;
 import seedu.address.model.role.RoleHandler;
-import seedu.address.model.role.exceptions.InvalidRoleException;
 
 /**
  * Jackson-friendly version of {@link Role}.
@@ -19,6 +18,8 @@ public class JsonAdaptedRole {
      */
     @JsonCreator
     public JsonAdaptedRole(String roleName) {
+
+
         this.roleName = roleName;
     }
 
@@ -35,16 +36,17 @@ public class JsonAdaptedRole {
     }
 
     /**
-     * Converts this Jackson-friendly adapted tag object into the model's {@code Role} object.
+     * Converts this Jackson-friendly adapted role object into the model's {@code Role} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted tag.
+     * @throws IllegalValueException if there were any data constraints violated in the adapted role.
      */
     public Role toModelType() throws IllegalValueException {
-        RoleHandler rh = new RoleHandler();
+        // Throws illegal value exception instead of invalid role because of jsonadaptedRole
         try {
-            return rh.getRole(roleName);
-        } catch (InvalidRoleException e) {
+            return RoleHandler.getRole(roleName);
+        } catch (Exception e) {
             throw new IllegalValueException(RoleHandler.MESSAGE_CONSTRAINTS);
+
         }
     }
 

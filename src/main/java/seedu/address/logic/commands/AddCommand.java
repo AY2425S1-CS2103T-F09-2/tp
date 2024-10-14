@@ -40,6 +40,7 @@ public class AddCommand extends Command {
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney"
             + PREFIX_ROLE + "sponsor"
+
             + PREFIX_ROLE + "attendee";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";

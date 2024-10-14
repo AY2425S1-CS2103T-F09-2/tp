@@ -41,7 +41,8 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
             @JsonProperty("tags") List<JsonAdaptedTag> tags,
-            @JsonProperty("telegramUsername") String telegramUsername) {
+            @JsonProperty("telegramUsername") String telegramUsername,
+            @JsonProperty("roles") JsonAdaptedRole... roles) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -50,6 +51,12 @@ class JsonAdaptedPerson {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        if (roles != null) {
+            for (JsonAdaptedRole role : roles) {
+                this.roles.add(role);
+            }
+        }
+
     }
 
     /**
@@ -120,6 +127,18 @@ class JsonAdaptedPerson {
         final TelegramUsername modelTelegramUsername = new TelegramUsername(telegramUsername);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
+        //        Role[] roles = new Role[this.roles.size()];
+        //
+        //        if (this.roles.size() != 0) {
+        //            for (int i = 0; i < this.roles.size(); i++) {
+        //                try {
+        //                    roles[i] = this.roles.get(i).toModelType();
+        //                } catch (IllegalValueException e) {
+        //                    throw new RuntimeException(e);
+        //                }
+        //            }
+        //        }
+
         final Set<Role> modelRoles = new HashSet<>(personRoles);
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags,
                 modelTelegramUsername, modelRoles);

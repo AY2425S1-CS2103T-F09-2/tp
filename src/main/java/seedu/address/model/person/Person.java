@@ -34,7 +34,7 @@ public class Person implements Comparable<Person> {
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
                   TelegramUsername telegramUsername, Set<Role> roles) {
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, phone, email, address, tags, telegramUsername, roles);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -43,6 +43,25 @@ public class Person implements Comparable<Person> {
         this.telegramUsername = telegramUsername;
         this.roles.addAll(roles);
     }
+
+    /**
+     * Constructor that takes in a variable number of roles(optional field)
+     */
+    //    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+    //                    TelegramUsername telegramUsername, Role... roles) {
+    //        requireAllNonNull(name, phone, email, address, tags);
+    //        this.name = name;
+    //        this.phone = phone;
+    //        this.email = email;
+    //        this.address = address;
+    //        this.tags.addAll(tags);
+    //        this.telegramUsername = telegramUsername;
+    //        for (Role role : roles) {
+    //            this.roles.add(role);
+    //        }
+    //
+    //    }
+
 
     public Name getName() {
         return name;
@@ -62,6 +81,8 @@ public class Person implements Comparable<Person> {
     public TelegramUsername getTelegramUsername() {
         return telegramUsername;
     }
+
+
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
@@ -93,6 +114,9 @@ public class Person implements Comparable<Person> {
                 || otherPerson.getEmail().equals(getEmail()));
     }
 
+
+
+
     /**
      * Returns true if both persons have the same identity and data fields.
      * This defines a stronger notion of equality between two persons.
@@ -121,8 +145,16 @@ public class Person implements Comparable<Person> {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, tags, roles);
     }
+
+    /**
+     * Returns true if the person has the specified role.
+     */
+    public boolean hasRole(Role role) {
+        return roles.contains(role);
+    }
+
 
     @Override
     public String toString() {

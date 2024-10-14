@@ -104,6 +104,7 @@ public class EditPersonDescriptorBuilder {
      * that we are building.
      */
     public EditPersonDescriptorBuilder withRoles(String... roles) {
+
         RoleHandler rh = new RoleHandler();
         Set<Role> roleSet = Stream.of(roles)
                 .map(role -> {

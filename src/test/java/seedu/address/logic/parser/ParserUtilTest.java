@@ -212,6 +212,7 @@ public class ParserUtilTest {
     @Test
     public void parseRole_validValueWithoutWhitespace_returnsEmail() throws Exception {
         RoleHandler roleHandler = new RoleHandler();
+
         Role expectedRole = roleHandler.getRole(VALID_ROLE_1);
         assertEquals(expectedRole, ParserUtil.parseRole(VALID_ROLE_1));
     }
@@ -220,7 +221,7 @@ public class ParserUtilTest {
     public void parseRole_validValueWithWhitespace_returnsTrimmedEmail() throws Exception {
         String roleWithWhitespace = WHITESPACE + VALID_ROLE_1 + WHITESPACE;
         RoleHandler roleHandler = new RoleHandler();
-        Role expectedRole = roleHandler.getRole(roleWithWhitespace);
+        Role expectedRole = RoleHandler.getRole(roleWithWhitespace);
         assertEquals(expectedRole, ParserUtil.parseRole(roleWithWhitespace));
     }
 
@@ -230,10 +231,9 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseRoles_collectionWithInvalidTags_throwsParseException() {
+    public void parseRoles_collectionWithInvalidRoles_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseRoles(Arrays.asList(VALID_ROLE_1, INVALID_ROLE)));
     }
-
     @Test
     public void parseRoles_emptyCollection_returnsEmptySet() throws Exception {
         assertTrue(ParserUtil.parseTags(Collections.emptyList()).isEmpty());

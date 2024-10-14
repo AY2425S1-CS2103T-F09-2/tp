@@ -33,7 +33,7 @@ public class RoleHandler {
      * @param role String representation of role.
      * @return Corresponding role object.
      */
-    public Role getRole(String role) throws InvalidRoleException {
+    public static Role getRole(String role) throws InvalidRoleException {
         Objects.requireNonNull(role);
         role = role.trim().toLowerCase();
         switch (role) {
@@ -80,5 +80,6 @@ public class RoleHandler {
         default -> false;
         };
     }
+
 
 }

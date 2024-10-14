@@ -108,6 +108,10 @@ public class EditCommand extends Command {
         TelegramUsername updatedTeleUsername = editPersonDescriptor.getTelegramUsername()
                 .orElse(personToEdit.getTelegramUsername());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+
+        //Role[] updatedRoles = (editPersonDescriptor.getRoles().orElse(personToEdit.getRoles())).toArray(new Role[0]);
+
+
         Set<Role> updatedRoles = editPersonDescriptor.getRoles().orElse(personToEdit.getRoles());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
@@ -263,7 +267,8 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(telegramUsername, otherEditPersonDescriptor.telegramUsername)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(roles, otherEditPersonDescriptor.roles);
         }
 
         @Override
